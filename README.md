@@ -18,3 +18,7 @@ Si el mapa y las colisiones estan en una branch aparte, pueden subirla directame
 la base, como en el ejemplo que subo, donde cambio los archivos main y constantes, y agrego personaje, subanlo con la segunda opción
 ![image](https://github.com/user-attachments/assets/4ca6e4d0-4b61-465d-8f47-665b4c02dd0d)
 De esa forma todos podemos ver el código antes de que cambie
+
+
+
+O bien usan el Fork arriba a la derecha en la página principal
