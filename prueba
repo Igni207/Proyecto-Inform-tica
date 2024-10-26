@@ -1,0 +1,13 @@
+import pygame
+pygame.init()
+high = 600
+width = 800
+window = pygame.display.set_mode((width,high))
+run = True
+while run:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            run = False
+pygame.quit()
+tttt= 0
+jugador = 45
