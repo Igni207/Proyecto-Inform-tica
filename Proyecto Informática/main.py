@@ -1,6 +1,8 @@
 import pygame
 import constantes
 from control_oleada import Gen_Ene_borde
+import interfaz
+from jugador import Jugador 
 
 mover_arriba = False
 mover_abajo = False
@@ -13,21 +15,6 @@ pygame.init()
 ventana=pygame.display.set_mode((constantes.ANCHO_VENTANA, constantes.ALTO_VENTANA))
 pygame.display.set_caption("Juego Oleadas")
 
-#Objeto del jugador
-class Jugador:
-    def __init__(self, x, y):
-        h = k = 50
-        self.rect = pygame.Rect(x, y, h, k)
-        self.sprite = pygame.image.load('Proyecto Informática/soldi.png')  # Cargar el sprite
-        self.sprite = pygame.transform.scale(self.sprite, (h, k))  # Cambiar el tamaño según sea necesario
-
-    def dibujar(self, ventana):
-        ventana.blit(self.sprite, self.rect.topleft)
-
-    def movimiento(self,delta_x,delta_y):
-        self.rect.x=self.rect.x+delta_x
-        self.rect.y=self.rect.y+delta_y 
-
 # Spawn del jugador
 jugador = Jugador(constantes.ANCHO_VENTANA // 2, constantes.ALTO_VENTANA // 2)
 
@@ -38,9 +25,15 @@ enemigos_por_oleada = 5
 enemigos_restantes = enemigos_por_oleada
 reloj = pygame.time.Clock()
 
+#aquí creo la barra de vida, dejenme un espacio aquí para las cosas de interfaz
+barra_vida = interfaz.BarraVida(vida_max=3, pos=(50, 50))
+
 # Bucle principal del juego
 run = True
 while run:
+    #SALUD
+    pygame.display.update()
+
     delta_x = 0
     delta_y = 0
 
@@ -102,6 +95,8 @@ while run:
     jugador.dibujar(ventana)  # Dibuja el jugador
     for enemigo in enemigos:
         enemigo.dibujar(ventana)  # Dibuja enemigos
+        #mostrar la barra de vida
+    barra_vida.dibujo_cor(ventana)
 
     pygame.display.flip()  # Actualiza la pantalla
     reloj.tick(60)  # 60 FPS
