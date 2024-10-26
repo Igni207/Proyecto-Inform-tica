@@ -1,6 +1,6 @@
 import pygame
 import constantes
-from control_oleada import Gen_Ene_borde
+from control_oleada import Gen_Ene_borde, detectar_colisiones
 import interfaz
 from jugador import Jugador 
 
@@ -89,6 +89,7 @@ while run:
             run = False #CAMBIAR ESTO PARA LA PANTALLA GAME OVER
         if enemigo.rect.y < 0 or enemigo.rect.y > constantes.ALTO_VENTANA or enemigo.rect.x < 0 or enemigo.rect.x > constantes.ANCHO_VENTANA:
             enemigos.remove(enemigo)
+    detectar_colisiones(enemigos)
 
     # Dibujar en pantalla
     ventana.fill((0, 0, 0))  # Fondo negro
