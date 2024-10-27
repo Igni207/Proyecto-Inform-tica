@@ -30,7 +30,7 @@ tiempo_invulnerable = 0  #temporizador para invulnerabilidad
 duracion_invulnerable = 1.5  #duración en segundos
 
 
-#Variables para las oleadasaaa
+#Variables para las oleadas
 enemigos = []
 oleada = 1
 enemigos_por_oleada = 5
@@ -55,6 +55,9 @@ musica_game_over = pygame.mixer.Sound("musica/game_over.mp3")
 
 #Barra de vida
 barra_vida = interfaz.BarraVida(vida_max=5, pos=(50, 50)) #se pueden cambiar la cant de vidas
+#Cont de oleadas
+contador_oleadas = interfaz.ContadorOleadas(pos=(constantes.ANCHO_VENTANA - 200, 50))
+
 
 #Botones
 
@@ -179,12 +182,12 @@ while run==True:
         ventana.blit(texto_jugar, boton_jugar_rect)
 
 
-        # Botón de volumen + 
+        #botón de volumen + 
         texto_volumen_up = fuente.render("+Vol", True, (255, 255, 255))
         boton_volumen_up_rect = texto_volumen_up.get_rect(topleft=(10, constantes.ALTO_VENTANA - 360))  #10 y 360 son los pixeles para el borde 
         ventana.blit(texto_volumen_up, boton_volumen_up_rect)
 
-        # Botón de volumen -
+        #botón de volumen -
         texto_volumen_down = fuente.render("-Vol", True, (255, 255, 255))
         boton_volumen_down_rect = texto_volumen_down.get_rect(topleft=(10, constantes.ALTO_VENTANA - 270)) 
         ventana.blit(texto_volumen_down, boton_volumen_down_rect)
@@ -196,6 +199,7 @@ while run==True:
         ventana.fill((173, 216, 230))
         jugador.dibujar(ventana)
         barra_vida.dibujo_cor(ventana)
+        contador_oleadas.dibujar(ventana)
         #movimiento del jugador
         if mover_derecha:
             delta_x = 2
@@ -212,10 +216,12 @@ while run==True:
             enemigo = Gen_Ene_borde((jugador.rect.x, jugador.rect.y))
             enemigos.append(enemigo)
             enemigos_restantes -= 1
-        elif not enemigos:  # Preparar la próxima oleada si no quedan enemigos
+        elif not enemigos:  #prox oleada si no hay enemigos
+
             oleada += 1
-            enemigos_por_oleada += 3  # Aumentar dificultad, aumentando la cant de enemigos :D
+            enemigos_por_oleada += 3  #aumentando la cant de enemigos :D
             enemigos_restantes = enemigos_por_oleada
+            contador_oleadas.siguiente_oleada() #de interfaz
         #movimiento enemigos
         for enemigo in enemigos[:]:
             enemigo.mover_hacia_jugador(jugador.rect.center)
@@ -223,15 +229,15 @@ while run==True:
             if enemigo.rect.colliderect(jugador.rect):
                 if not invulnerable:
                     barra_vida.recibir_daño()
-                    invulnerable = True  # Activar invulnerabilidad
-                    tiempo_invulnerable = duracion_invulnerable  # Reiniciar el temporizador de invulnerabilidad
+                    invulnerable = True  #se hace invencible
+                    tiempo_invulnerable = duracion_invulnerable  #se reinicia el tiempo para ser invencible
                 if barra_vida.vida_actual <= 0:
                     en_juego = False
                     game_over = True        
             if enemigo.rect.y < 0 or enemigo.rect.y > constantes.ALTO_VENTANA or enemigo.rect.x < 0 or enemigo.rect.x > constantes.ANCHO_VENTANA:
                 enemigos.remove(enemigo) #eso borra al enemigo que sale de la pantalla verdad?
         for enemigo in enemigos:
-            enemigo.dibujar(ventana)  # Dibuja enemigos
+            enemigo.dibujar(ventana)  #dibuja los enemigos
 
 
     #Game Over :c

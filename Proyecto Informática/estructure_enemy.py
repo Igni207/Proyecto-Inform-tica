@@ -5,11 +5,11 @@ import math
 class Enemigo:
     def __init__(self, x, y, velocidad, vida):
         h = k = 40
-        self.rect = pygame.Rect(x, y, h, k)  # Tamaño del enemigo
+        self.rect = pygame.Rect(x, y, h, k)  #tamaño
         self.velocidad = velocidad
         self.vida = vida
-        self.sprite = pygame.image.load('Imagenes/orc.png')  # Cargar el sprite
-        self.sprite = pygame.transform.scale(self.sprite, (h, k))  # Cambiar el tamaño según sea necesario
+        self.sprite = pygame.image.load('Imagenes/orc.png')  
+        self.sprite = pygame.transform.scale(self.sprite, (h, k))  
 
     def mover_hacia_jugador(self, jugador_pos):
         dx, dy = jugador_pos[0] - self.rect.x, jugador_pos[1] - self.rect.y
@@ -22,8 +22,8 @@ class Enemigo:
     def dibujar(self, ventana):
         ventana.blit(self.sprite, self.rect.topleft)
 
-    def recibir_dano(self, dano):
-        self.vida -= dano
+    def recibir_daño_enemigo(self, daño):
+        self.vida -= daño
         if self.vida <= 0:
-            return True  # Indica que el enemigo ha sido derrotado
+            return True  #para saber q se muere el enemigo
         return False

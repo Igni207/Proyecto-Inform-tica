@@ -1,3 +1,4 @@
+from turtle import Screen
 import pygame
 
 #Intento de Corazones
@@ -10,13 +11,13 @@ class BarraVida:
         #cargo las imagenes, las podemos cambiar sin drama
         self.vida_full = pygame.image.load("imagenes/corazon_vivo.png")
         self.vida_vacia = pygame.image.load("imagenes/corazon_muerto.png")
-        #para cambiarle el tamaño a los corazones
+        #tamañooo
         self.vida_full = pygame.transform.scale(self.vida_full, (40, 40))
         self.vida_vacia= pygame.transform.scale(self.vida_vacia, (40, 40))
     def dibujo_cor(self, screen):
         for i in range (self.vida_max):
             if i < self.vida_actual:
-                #para dibujar en la pantalla principal
+                #para q salgan en la pantalla principal
                 screen.blit(self.vida_full, (self.pos[0] + i * 50, self.pos[1]))
             else:
                 screen.blit(self.vida_vacia, (self.pos[0] + i * 50, self.pos[1]))
@@ -25,3 +26,14 @@ class BarraVida:
         if self.vida_actual > 0:
             self.vida_actual -=1
             
+
+class ContadorOleadas:
+    def __init__(self, pos):
+        self.oleada = 1 #primera oleada
+        self.pos = pos
+        self.fuente = pygame.font.Font("Fuente/AncientModernTales-a7Po.ttf", 40)
+    def siguiente_oleada(self):
+        self.oleada += 1 #contador de oleadas
+    def dibujar(self, screen):
+        texto_oleada = self.fuente.render(f"Oleada: {self.oleada}", True, (255, 255, 255))
+        screen.blit(texto_oleada , self.pos)
