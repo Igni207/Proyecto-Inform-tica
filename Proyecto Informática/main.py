@@ -4,22 +4,17 @@ import interfaz
 from jugador import Jugador
 from control_oleada import Gen_Ene_borde
 
-
 #para el movimiento
 mover_arriba = False
 mover_abajo = False
 mover_izquierda = False
 mover_derecha = False
 
-
-
 pygame.init()
-
 
 #config pantallas
 ventana=pygame.display.set_mode((constantes.ANCHO_VENTANA, constantes.ALTO_VENTANA))
 pygame.display.set_caption("Juego Oleadas")
-
 
 #spawn del jugador
 jugador = Jugador(constantes.ANCHO_VENTANA // 2, constantes.ALTO_VENTANA // 2)
@@ -29,7 +24,6 @@ invulnerable = False
 tiempo_invulnerable = 0  #temporizador para invulnerabilidad
 duracion_invulnerable = 1.5  #duración en segundos
 
-
 #Variables para las oleadasaaa
 enemigos = []
 oleada = 1
@@ -37,14 +31,9 @@ enemigos_por_oleada = 5
 enemigos_restantes = enemigos_por_oleada
 reloj = pygame.time.Clock()
 
-
-
-
-
 #Interfaz y botones (Igni)
 #fuente así estilo medieval
 fuente = pygame.font.Font("Proyecto Informática\Fuente\AncientModernTales-a7Po.ttf", 80)
-
 
 #Música
 pygame.mixer.music.load("Proyecto Informática\musica\menu_musica.mp3")  #la música del menú
@@ -52,26 +41,17 @@ pygame.mixer.music.set_volume(0.3)  #para ajustar el volumen (0.0 a 1.0)
 pygame.mixer.music.play(-1)  #para reproducirla en bucle
 musica_game_over = pygame.mixer.Sound("Proyecto Informática\musica\game_over.mp3")
 
-
 #Barra de vida
 barra_vida = interfaz.BarraVida(vida_max=5, pos=(50, 50)) #se pueden cambiar la cant de vidas
 
 #Botones
 
 #botón de recibir daño y probar la vida
-
-
 boton_volumen_up_rect = pygame.Rect(50, 300, 100, 50)
 boton_volumen_down_rect = pygame.Rect(160, 300, 100, 50)
 boton_jugar_rect = pygame.Rect((constantes.ANCHO_VENTANA - 150) // 2, 300, 150, 50)
 color_boton_volumen = (255, 255, 0)
 color_boton_jugar = (0, 200, 0)
-
-
-
-
-
-
 
 #botón de jugar menu principal
 boton_jugar_width, boton_jugar_height = 150, 50
@@ -79,25 +59,11 @@ boton_jugar_rect = pygame.Rect((constantes.ANCHO_VENTANA - boton_jugar_width) //
                                 300, boton_jugar_width, boton_jugar_height)
 color_boton = (0, 200, 0)  
 
-
-
-
 #estado del juego, True si estamos en el menú, False si estamos en el juego
 en_menu = True
 en_juego = False
 game_over = False
 volumen = 0.5  #volumen inicial para la música
-
-
-
-
-
-
-
-
-
-
-
 
 
 run=True
@@ -232,8 +198,6 @@ while run==True:
                 enemigos.remove(enemigo) #eso borra al enemigo que sale de la pantalla verdad?
         for enemigo in enemigos:
             enemigo.dibujar(ventana)  # Dibuja enemigos
-
-
     #Game Over :c
     elif game_over==True:
         ventana.fill((0, 0, 0))
@@ -254,22 +218,12 @@ while run==True:
             ventana.blit(texto_nombre, texto_nombre.get_rect(center=(constantes.ANCHO_VENTANA // 2, y_posicion)))
             y_posicion += 50  #espacio entre nombres
 
-
-
-
         #musica game over
         pygame.mixer.music.stop()  #para la musica de combate
         musica_game_over.set_volume(0.3) #bajar volumen dios mio
         musica_game_over.play()  #reproduce game over
 
-
-
-
-
     pygame.display.flip()  #actualizar pantalla
     reloj.tick(60)  # 60 FPS
 
-
-
 pygame.quit()
-

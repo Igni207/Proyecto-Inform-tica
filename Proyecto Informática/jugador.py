@@ -12,4 +12,4 @@ class Jugador:
 
     def movimiento(self,delta_x,delta_y):
         self.rect.x = self.rect.x + delta_x
-        self.rect.y = self.rect.y + delta_y 
+        self.rect.y = self.rect.y + delta_y
