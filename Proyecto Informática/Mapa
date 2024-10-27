@@ -1,5 +1,5 @@
 import pytmx
-
+import constantes.py
 # Cargar el mapa TMX
 tmx_data = pytmx.load_pygame(C:\Users\Santi\OneDrive\Documentos\info juego) 
 
