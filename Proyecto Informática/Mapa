@@ -1,0 +1,19 @@
+import pytmx
+
+# Cargar el mapa TMX
+tmx_data = pytmx.load_pygame(C:\Users\Santi\OneDrive\Documentos\info juego) 
+
+# Lista para almacenar rectángulos de colisión
+colisiones = []
+
+# Cargar colisiones desde la capa de objetos o tiles colisionables
+for obj in tmx_data.objects:
+    if obj.name == "colision" or obj.properties.get("colision") == True:
+        colisiones.append(pygame.Rect(obj.x, obj.y, obj.width, obj.height))
+
+# Detección de colisiones
+for colision in colisiones:
+    if jugador.colliderect(colision):  # Cambia "jugador" a la variable que uses para el rect del jugador
+        print("Colisión detectada")
+        # Aquí puedes definir qué sucede en caso de colisión (p. ej., detener o revertir el movimiento)
+
