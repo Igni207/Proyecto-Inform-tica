@@ -5,7 +5,6 @@ from type_enemy import EnemigoRapido, EnemigoPesado, EnemigoNormal
 def Gen_Ene_borde(jugador_pos):
     lado = random.choice(["izquierda", "derecha", "arriba", "abajo"])
 
-    # Generar coordenadas en el borde
     if lado == "izquierda":
         x, y = 0, random.randint(0, constantes.ALTO_VENTANA - 40)
     elif lado == "derecha":
@@ -15,14 +14,14 @@ def Gen_Ene_borde(jugador_pos):
     else:  # abajo
         x, y = random.randint(0, constantes.ANCHO_VENTANA - 40), constantes.ALTO_VENTANA - 40
 
-    # Elegir un tipo de enemigo aleatorio
+    #enemigo aleatorio
     tipo_enemigo = random.choice(["normal", "rapido", "pesado"])
     
     if tipo_enemigo == "normal":
         return EnemigoNormal(x, y)
     elif tipo_enemigo == "rapido":
         return EnemigoRapido(x, y)
-    else:  # pesado
+    else:  #  este es elñ pesado
         return EnemigoPesado(x, y)
 
 def detectar_colisiones(enemigos):
@@ -32,11 +31,10 @@ def detectar_colisiones(enemigos):
                 resolver_colision(enemigo1, enemigo2)
 
 def resolver_colision(enemigo1, enemigo2):
-    # Aquí defines cómo separarlos. Un ejemplo simple:
     desplazamiento = enemigo1.rect.centerx - enemigo2.rect.centerx
     if desplazamiento > 0:
-        enemigo1.rect.x += 5  # Se mueve hacia la derecha
-        enemigo2.rect.x -= 5  # Se mueve hacia la izquierda
+        enemigo1.rect.x += 5  #derecha
+        enemigo2.rect.x -= 5  #izquierda
     else:
         enemigo1.rect.x -= 5
         enemigo2.rect.x += 5
