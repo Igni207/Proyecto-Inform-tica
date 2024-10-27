@@ -16,5 +16,9 @@ class EnemigoRapido(Enemigo):
 # minijefe
 class EnemigoMinijefe(Enemigo):
     def __init__(self, x, y):
+<<<<<<< Updated upstream
         super().__init__(x, y, velocidad=5, vida=8)
     
+=======
+        super().__init__(x, y, velocidad=5, vida=8)
+>>>>>>> Stashed changes
