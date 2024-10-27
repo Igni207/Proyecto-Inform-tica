@@ -43,14 +43,14 @@ reloj = pygame.time.Clock()
 
 #Interfaz y botones (Igni)
 #fuente así estilo medieval
-fuente = pygame.font.Font("Fuente/AncientModernTales-a7Po.ttf", 80)
+fuente = pygame.font.Font("Proyecto Informática\Fuente\AncientModernTales-a7Po.ttf", 80)
 
 
 #Música
-pygame.mixer.music.load("musica/menu_musica.mp3")  #la música del menú
+pygame.mixer.music.load("Proyecto Informática\musica\menu_musica.mp3")  #la música del menú
 pygame.mixer.music.set_volume(0.3)  #para ajustar el volumen (0.0 a 1.0)
 pygame.mixer.music.play(-1)  #para reproducirla en bucle
-musica_game_over = pygame.mixer.Sound("musica/game_over.mp3")
+musica_game_over = pygame.mixer.Sound("Proyecto Informática\musica\game_over.mp3")
 
 
 #Barra de vida
@@ -128,7 +128,7 @@ while run==True:
                 if boton_jugar_rect.collidepoint(eventos.pos):
                     en_menu = False
                     en_juego = True #para cambiar del menú al juego
-                    pygame.mixer.music.load("musica/combate_musica.mp3") #carga musica menu
+                    pygame.mixer.music.load("Proyecto Informática\musica\combate_musica.mp3") #carga musica menu
                     pygame.mixer.music.play(-1) #bucle
                 #botones
                 elif boton_volumen_up_rect.collidepoint(eventos.pos):
@@ -241,7 +241,7 @@ while run==True:
         ventana.blit(texto_game_over, texto_game_over.get_rect(center=(constantes.ANCHO_VENTANA // 2, constantes.ALTO_VENTANA // 2 - 150)))
     
         #gracias por jugar
-        fuente_pequeña = pygame.font.Font("Fuente/AncientModernTales-a7Po.ttf", 40)  #letra mas chica
+        fuente_pequeña = pygame.font.Font("Proyecto Informática\Fuente\AncientModernTales-a7Po.ttf", 40)  #letra mas chica
         texto_gracias = fuente_pequeña.render("Gracias por jugar", True, (255, 255, 255))
         ventana.blit(texto_gracias, texto_gracias.get_rect(center=(constantes.ANCHO_VENTANA // 2, constantes.ALTO_VENTANA // 2 - 50)))
     

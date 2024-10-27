@@ -4,7 +4,7 @@ class Jugador:
     def __init__(self, x, y):
         h = k = 50
         self.rect = pygame.Rect(x, y, h, k)
-        self.sprite = pygame.image.load('Imagenes/soldi.png')  # Cargar el sprite
+        self.sprite = pygame.image.load('Proyecto Informática\imagenes\soldi.png')  # Cargar el sprite
         self.sprite = pygame.transform.scale(self.sprite, (h, k))  # Cambiar el tamaño según sea necesario
 
     def dibujar(self, ventana):

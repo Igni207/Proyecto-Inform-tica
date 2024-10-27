@@ -8,8 +8,8 @@ class BarraVida:
         self.vida_actual = vida_max
         self.pos = pos
         #cargo las imagenes, las podemos cambiar sin drama
-        self.vida_full = pygame.image.load("imagenes/corazon_vivo.png")
-        self.vida_vacia = pygame.image.load("imagenes/corazon_muerto.png")
+        self.vida_full = pygame.image.load("Proyecto Informática\imagenes\corazon_vivo.png")
+        self.vida_vacia = pygame.image.load("Proyecto Informática\imagenes\corazon_muerto.png")
         #para cambiarle el tamaño a los corazones
         self.vida_full = pygame.transform.scale(self.vida_full, (40, 40))
         self.vida_vacia= pygame.transform.scale(self.vida_vacia, (40, 40))
