@@ -1,5 +1,9 @@
 import pygame
 import constantes
+<<<<<<< Updated upstream
+=======
+import time
+>>>>>>> Stashed changes
 from control_oleada import Gen_Ene_borde
 
 mover_arriba = False
@@ -37,6 +41,8 @@ oleada = 1
 enemigos_por_oleada = 5
 enemigos_restantes = enemigos_por_oleada
 reloj = pygame.time.Clock()
+tiempo_descanso = 5
+
 
 # Bucle principal del juego
 run = True
@@ -81,10 +87,12 @@ while run:
 
     # Generar enemigos para la oleada actual
     if enemigos_restantes > 0:
-        enemigo = Gen_Ene_borde((jugador.rect.x, jugador.rect.y))
+        enemigo = Gen_Ene_borde((jugador.rect.x, jugador.rect.y,oleada))
         enemigos.append(enemigo)
         enemigos_restantes -= 1
-    elif not enemigos:  # Preparar la próxima oleada si no quedan enemigos
+    elif not enemigos:# Preparar la próxima oleada si no quedan enemigos
+        print(f"descanso de {tiempo_descanso}segundos antes de la siguiente oleada")
+        time.sleep(tiempo_descanso)
         oleada += 1
         enemigos_por_oleada += 3  # Aumentar dificultad
         enemigos_restantes = enemigos_por_oleada
