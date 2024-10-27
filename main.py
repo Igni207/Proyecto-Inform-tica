@@ -210,7 +210,7 @@ while run==True:
 
         #generar enemigos para la oleada actual
         if enemigos_restantes > 0:
-            enemigo = Gen_Ene_borde((jugador.rect.x, jugador.rect.y))
+            enemigo = Gen_Ene_borde((jugador.rect.x, jugador.rect.y),oleada)
             enemigos.append(enemigo)
             enemigos_restantes -= 1
         elif not enemigos:  # Preparar la próxima oleada si no quedan enemigos
