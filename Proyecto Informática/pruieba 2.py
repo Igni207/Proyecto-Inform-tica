@@ -1,6 +1,7 @@
 import pygame
 import math
 import random
+import jugador
 
 class Proyectil(pygame.sprite.Sprite):
     def __init__(self, x, y, direction):
@@ -51,15 +52,15 @@ class Moneda(pygame.sprite.Sprite):
         self.image.fill((255, 255, 255))  
         self.rect = self.image.get_rect(center=(x, y))
 
-class Jugador(pygame.sprite.Sprite):
-    def __init__(self):
-        super().__init__()
-        self.image = pygame.Surface((30, 30))
-        self.image.fill((0, 255, 0))
-        self.rect = self.image.get_rect(center=(400, 300))
-        self.vida = 3 
+class Jugador:
+    def __init__(self, x, y):
+        h = k = 50
+        self.rect = pygame.Rect(x, y, h, k)
+        self.vida = 3
+        self.sprite = pygame.image.load('Proyecto Informática\imagenes\soldi.png')  # Cargar el sprite
+        self.sprite = pygame.transform.scale(self.sprite, (h, k))  # Cambiar el tamaño según sea necesario
 
-    def update(self, keys):
+    '''def update(self, keys):
         speed = 5
         if keys[pygame.K_LEFT]:
             self.rect.x -= speed
@@ -68,7 +69,14 @@ class Jugador(pygame.sprite.Sprite):
         if keys[pygame.K_UP]:
             self.rect.y -= speed
         if keys[pygame.K_DOWN]:
-            self.rect.y += speed
+            self.rect.y += speed'''
+    
+    def dibujar(self, ventana):
+        ventana.blit(self.sprite, self.rect.topleft)
+
+    def movimiento(self,delta_x,delta_y):
+        self.rect.x = self.rect.x + delta_x
+        self.rect.y = self.rect.y + delta_y 
 
     def perder_vida(self):
         self.vida -= 1
@@ -82,7 +90,7 @@ screen = pygame.display.set_mode((800, 600))
 clock = pygame.time.Clock()
 font = pygame.font.Font(None, 36) 
 
-jugador = Jugador()
+jugador = Jugador(300, 400)
 jugador_group = pygame.sprite.Group(jugador)
 proyectiles_group = pygame.sprite.Group()
 enemigos_group = pygame.sprite.Group()
