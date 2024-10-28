@@ -1,6 +1,7 @@
 import pygame
 import constantes
 import interfaz 
+import time
 from jugador import Jugador
 from control_oleada import Gen_Ene_borde
 
@@ -30,6 +31,7 @@ oleada = 1
 enemigos_por_oleada = 5
 enemigos_restantes = enemigos_por_oleada
 reloj = pygame.time.Clock()
+tiempo_descanso = 5
 
 #Interfaz y botones (Igni)
 #fuente así estilo medieval
@@ -175,10 +177,12 @@ while run==True:
 
         #generar enemigos para la oleada actual
         if enemigos_restantes > 0:
-            enemigo = Gen_Ene_borde((jugador.rect.x, jugador.rect.y))
+            enemigo = Gen_Ene_borde((jugador.rect.x, jugador.rect.y),oleada)
             enemigos.append(enemigo)
             enemigos_restantes -= 1
         elif not enemigos:  # Preparar la próxima oleada si no quedan enemigos
+            print(f"tiempo de {tiempo_descanso} antes de la proxima ronda")
+            time.sleep(tiempo_descanso)
             oleada += 1
             enemigos_por_oleada += 3  # Aumentar dificultad, aumentando la cant de enemigos :D
             enemigos_restantes = enemigos_por_oleada
