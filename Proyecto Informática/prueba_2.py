@@ -30,6 +30,7 @@ monedas_recogidas = 0
 dano=1
 reloj = pygame.time.Clock()
 tiempo_descanso = 3.5
+tiempo_descanso = 4
 
 #tiempo de inmortalidad despues de un golpe
 invulnerable = False
