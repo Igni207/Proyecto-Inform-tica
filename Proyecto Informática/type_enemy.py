@@ -12,7 +12,8 @@ class EnemigoNormal(Enemigo):
 # enemigo rapido
 class EnemigoRapido(Enemigo):
     def __init__(self, x, y):
-        super().__init__(x, y, velocidad=5, vida=2)  # Mayor velocidad y menos vida
+        super().__init__(x, y, velocidad=5, vida=2)  # Mayor velocidad y menos 
+        
 # minijefee
 class EnemigoMinijefe(Enemigo):
     def __init__(self, x, y):
