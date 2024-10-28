@@ -184,7 +184,6 @@ while run==True:
             print(f"tiempo de {tiempo_descanso} antes de la proxima ronda")
             time.sleep(tiempo_descanso)
             oleada += 1
-            enemigos_por_oleada += 3  # Aumentar dificultad, aumentando la cant de enemigos :D
             enemigos_por_oleada += 2  # Aumentar dificultad, aumentando la cant de enemigos :D
             enemigos_restantes = enemigos_por_oleada
         #movimiento enemigos
