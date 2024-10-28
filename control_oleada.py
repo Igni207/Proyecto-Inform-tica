@@ -1,8 +1,8 @@
 import random
 import constantes
-from type_enemy import EnemigoRapido, EnemigoPesado, EnemigoNormal
+from type_enemy import EnemigoRapido, EnemigoPesado, EnemigoNormal,EnemigoMinijefe
 
-def Gen_Ene_borde(jugador_pos):
+def Gen_Ene_borde(jugador_pos,oleada):
     lado = random.choice(["izquierda", "derecha", "arriba", "abajo"])
 
     if lado == "izquierda":
@@ -13,7 +13,13 @@ def Gen_Ene_borde(jugador_pos):
         x, y = random.randint(0, constantes.ANCHO_VENTANA - 40), 0
     else:  # abajo
         x, y = random.randint(0, constantes.ANCHO_VENTANA - 40), constantes.ALTO_VENTANA - 40
-
+    # condicion minijefe
+    if oleada % 4 == 0:
+        return EnemigoMinijefe(x,y)
+    if oleada >= 2:
+        tipo_enemigo = random.choices(["normal", "rapido", "pesado"],probabilidad = [1,min(oleada-1,2),min(oleada-2,3)])[0]
+    else:
+        tipo_enemigo = "normal"
     #enemigo aleatorio
     tipo_enemigo = random.choice(["normal", "rapido", "pesado"])
     
@@ -21,7 +27,7 @@ def Gen_Ene_borde(jugador_pos):
         return EnemigoNormal(x, y)
     elif tipo_enemigo == "rapido":
         return EnemigoRapido(x, y)
-    else:  #  este es elñ pesado
+    else:  #  este es el pesado
         return EnemigoPesado(x, y)
 
 def detectar_colisiones(enemigos):
