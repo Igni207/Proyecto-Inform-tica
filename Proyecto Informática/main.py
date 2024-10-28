@@ -32,6 +32,7 @@ enemigos_por_oleada = 5
 enemigos_restantes = enemigos_por_oleada
 reloj = pygame.time.Clock()
 tiempo_descanso = 5
+tiempo_descanso = 4
 
 #Interfaz y botones (Igni)
 #fuente así estilo medieval
