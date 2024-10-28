@@ -10,7 +10,7 @@ class Enemigo:
         vida = 3
         self.velocidad = velocidad
         self.vida = vida
-        self.sprite = pygame.image.load('Proyecto Informática\orc.png')  # Cargar el sprite
+        self.sprite = pygame.image.load('Proyecto Informática\imagenes\orc.png')  # Cargar el sprite
         self.sprite = pygame.transform.scale(self.sprite, (h, k))  # Cambiar el tamaño según sea necesario
 
     def mover_hacia_jugador(self, jugador_pos):
