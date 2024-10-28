@@ -1,10 +1,8 @@
 import pygame
 import math
-import random
 from jugador import Jugador
 from proyectil import Proyectil
 from estructure_enemy import Enemigo
-from moneda import Moneda
 from control_oleada import Gen_Ene_borde
 import constantes
 import interfaz
@@ -24,7 +22,6 @@ barra_vida = interfaz.BarraVida(vida_max=5, pos=(50, 50)) #se pueden cambiar la 
 # Crear una instancia del jugador
 proyectiles = []
 enemigos = []
-monedas = []
 oleada = 1
 enemigos_por_oleada = 5
 enemigos_restantes = enemigos_por_oleada
@@ -90,10 +87,7 @@ while running:
         enemigos_golpeados = [enemigo for enemigo in enemigos if proyectil.rect.colliderect(enemigo.rect)]
         for enemigo in enemigos_golpeados:
             if enemigo.recibir_dano(dano):  # Si el enemigo recibe daño
-                if random.random() < 0.20:  # 20% para soltar una moneda
-                    moneda = Moneda(enemigo.rect.centerx, enemigo.rect.centery)
-                    monedas.append(moneda)
-            enemigos.remove(enemigo)  # Eliminar enemigo después de la colisión
+                enemigos.remove(enemigo)  # Eliminar enemigo después de la colisión
             if proyectil in proyectiles:  # Verifica si el proyectil está en la lista
                 proyectiles.remove(proyectil)  # Eliminar proyectil después de la colisión
 
@@ -101,12 +95,6 @@ while running:
     colisiones_jugador = [enemigo for enemigo in enemigos if jugador.rect.colliderect(enemigo.rect)]
     if colisiones_jugador:
         jugador.perder_vida()
-
-    # Comprobar colisiones entre jugador y monedas
-    colisiones_monedas = [moneda for moneda in monedas if jugador.rect.colliderect(moneda.rect)]
-    monedas_recogidas += len(colisiones_monedas)
-    for moneda in colisiones_monedas:
-        monedas.remove(moneda)  # Eliminar moneda recogida
 
     if monedas_recogidas >= 7:  # condición de victoria
         print("¡Has recogido 7 monedas! ¡Ganaste!")
@@ -125,9 +113,6 @@ while running:
     # Dibujar enemigos
     for enemigo in enemigos:
         enemigo.dibujar(ventana)
-
-    for moneda in monedas:
-        monedas.dibujar(ventana)
 
     # Mostrar información en pantalla
     vidas_texto = font.render(f"Vidas: {jugador.vida}", True, (255, 255, 255))
