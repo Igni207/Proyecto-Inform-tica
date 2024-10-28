@@ -1,9 +1,9 @@
 import pygame
 import constantes
 import interfaz 
-import time
 from jugador import Jugador
 from control_oleada import Gen_Ene_borde
+from items import Item
 
 #para el movimiento
 mover_arriba = False
@@ -20,6 +20,13 @@ pygame.display.set_caption("Juego Oleadas")
 #spawn del jugador
 jugador = Jugador(constantes.ANCHO_VENTANA // 2, constantes.ALTO_VENTANA // 2)
 
+#items
+moneda = Item(constantes.ANCHO_VENTANA//3, constantes.ALTO_VENTANA//3, 1)
+pocion_vida = Item(constantes.ANCHO_VENTANA//5, constantes.ALTO_VENTANA//5, 2)
+pociones=[]
+pociones.append(pocion_vida)
+
+
 #tiempo de inmortalidad despues de un golpe
 invulnerable = False
 tiempo_invulnerable = 0  #temporizador para invulnerabilidad
@@ -31,17 +38,16 @@ oleada = 1
 enemigos_por_oleada = 5
 enemigos_restantes = enemigos_por_oleada
 reloj = pygame.time.Clock()
-tiempo_descanso = 5
 
 #Interfaz y botones (Igni)
 #fuente así estilo medieval
-fuente = pygame.font.Font("Proyecto Informática\Fuente\AncientModernTales-a7Po.ttf", 80)
+fuente = pygame.font.Font("E://Proyecto-Inform-tica-PINFOAlphaV0.0.3//Proyecto Informática//Fuente//AncientModernTales-a7Po.ttf", 80)
 
 #Música
-pygame.mixer.music.load("Proyecto Informática\musica\menu_musica.mp3")  #la música del menú
+pygame.mixer.music.load("E://Proyecto-Inform-tica-PINFOAlphaV0.0.3//Proyecto Informática//musica//menu_musica.mp3")  #la música del menú
 pygame.mixer.music.set_volume(0.3)  #para ajustar el volumen (0.0 a 1.0)
 pygame.mixer.music.play(-1)  #para reproducirla en bucle
-musica_game_over = pygame.mixer.Sound("Proyecto Informática\musica\game_over.mp3")
+musica_game_over = pygame.mixer.Sound("E://Proyecto-Inform-tica-PINFOAlphaV0.0.3//Proyecto Informática//musica//game_over.mp3")
 
 #Barra de vida
 barra_vida = interfaz.BarraVida(vida_max=5, pos=(50, 50)) #se pueden cambiar la cant de vidas
@@ -96,7 +102,7 @@ while run==True:
                 if boton_jugar_rect.collidepoint(eventos.pos):
                     en_menu = False
                     en_juego = True #para cambiar del menú al juego
-                    pygame.mixer.music.load("Proyecto Informática\musica\combate_musica.mp3") #carga musica menu
+                    pygame.mixer.music.load("E://Proyecto-Inform-tica-PINFOAlphaV0.0.3//Proyecto Informática//musica//combate_musica.mp3") #carga musica menu
                     pygame.mixer.music.play(-1) #bucle
                 #botones
                 elif boton_volumen_up_rect.collidepoint(eventos.pos):
@@ -164,6 +170,17 @@ while run==True:
         ventana.fill((173, 216, 230))
         jugador.dibujar(ventana)
         barra_vida.dibujo_cor(ventana)
+        moneda.dibujar(ventana)
+        pocion_vida.dibujar(ventana)
+  
+        if pocion_vida.rect.colliderect(jugador):
+            if barra_vida.vida_actual < 5:
+                barra_vida.vida_actual+=1
+        for pocion in pociones[:]:
+            if jugador.rect.colliderect(pocion_vida.rect):
+                pociones.remove(pocion_vida)
+
+
         #movimiento del jugador
         if mover_derecha:
             delta_x = 2
@@ -177,12 +194,10 @@ while run==True:
 
         #generar enemigos para la oleada actual
         if enemigos_restantes > 0:
-            enemigo = Gen_Ene_borde((jugador.rect.x, jugador.rect.y),oleada)
+            enemigo = Gen_Ene_borde((jugador.rect.x, jugador.rect.y))
             enemigos.append(enemigo)
             enemigos_restantes -= 1
         elif not enemigos:  # Preparar la próxima oleada si no quedan enemigos
-            print(f"tiempo de {tiempo_descanso} antes de la proxima ronda")
-            time.sleep(tiempo_descanso)
             oleada += 1
             enemigos_por_oleada += 3  # Aumentar dificultad, aumentando la cant de enemigos :D
             enemigos_restantes = enemigos_por_oleada
@@ -209,7 +224,7 @@ while run==True:
         ventana.blit(texto_game_over, texto_game_over.get_rect(center=(constantes.ANCHO_VENTANA // 2, constantes.ALTO_VENTANA // 2 - 150)))
     
         #gracias por jugar
-        fuente_pequeña = pygame.font.Font("Proyecto Informática\Fuente\AncientModernTales-a7Po.ttf", 40)  #letra mas chica
+        fuente_pequeña = pygame.font.Font("E://Proyecto-Inform-tica-PINFOAlphaV0.0.3//Proyecto Informática//Fuente//AncientModernTales-a7Po.ttf", 40)  #letra mas chica
         texto_gracias = fuente_pequeña.render("Gracias por jugar", True, (255, 255, 255))
         ventana.blit(texto_gracias, texto_gracias.get_rect(center=(constantes.ANCHO_VENTANA // 2, constantes.ALTO_VENTANA // 2 - 50)))
     

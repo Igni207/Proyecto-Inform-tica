@@ -11,7 +11,7 @@ ventana = pygame.display.set_mode((ANCHO_VENTANA, ALTO_VENTANA))
 pygame.display.set_caption("Juego con Fondo y Colisiones")
 
 # Cargar la imagen del fondo
-fondo = pygame.image.load("Proyecto Informática\imagenes\juego.png").convert()
+fondo = pygame.image.load("E://Proyecto-Inform-tica-PINFOAlphaV0.0.3//Proyecto Informática//imagenes//juego.png").convert()
 
 # Escalar el fondo al tamaño de la ventana
 fondo = pygame.transform.scale(fondo, (ANCHO_VENTANA, ALTO_VENTANA))    
