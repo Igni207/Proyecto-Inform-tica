@@ -18,7 +18,7 @@ def Gen_Ene_borde(jugador_pos,oleada):
     if oleada % 3 == 0:
         return EnemigoMinijefe(x,y)
     if oleada >= 0:
-        tipo_enemigo = random.choice(["normal", "rapido", "pesado"],probabilidad = [1,min(oleada-1,2),min(oleada-2,3)])[0]
+        tipo_enemigo = random.choices(["normal", "rapido", "pesado"],probabilidad = [1,min(oleada-1,2),min(oleada-2,3)])[0]
     else:
         tipo_enemigo = "normal"
     # Elegir un tipo de enemigo aleatorio
