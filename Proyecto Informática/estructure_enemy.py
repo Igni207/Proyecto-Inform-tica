@@ -6,6 +6,11 @@ class Enemigo:
     def __init__(self, x, y, velocidad, vida):
         h = k = 40
         self.rect = pygame.Rect(x, y, h, k)  # Tamaño del enemigo
+<<<<<<< Updated upstream
+=======
+        velocidad = 1
+        vida = 2
+>>>>>>> Stashed changes
         self.velocidad = velocidad
         self.vida = vida
         self.sprite = pygame.image.load('Proyecto Informática\orc.png')  # Cargar el sprite
@@ -24,6 +29,11 @@ class Enemigo:
 
     def recibir_dano(self, dano):
         self.vida -= dano
+<<<<<<< Updated upstream
         if self.vida <= 0:
             return True  # Indica que el enemigo ha sido derrotado
         return False
+=======
+        return self.vida <= 0  # Devuelve True si el enemigo ha muerto
+
+>>>>>>> Stashed changes
