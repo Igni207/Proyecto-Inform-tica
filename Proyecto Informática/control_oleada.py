@@ -17,7 +17,15 @@ def Gen_Ene_borde(jugador_pos,oleada):
     # minijefe
     if oleada % 3 == 0 :
         return EnemigoMinijefe(x,y)
-    
+    # condicion minijefe
+    if oleada % 4 == 0:
+        return EnemigoMinijefe(x,y)
+    # tipo de enemigo en funcion de la oleada
+    if oleada >= 2 :
+        tipo_enemigo = random.choices(["normal", "rapido", "pesado"],probabilidad = [1,min(oleada-1,2),min(oleada-2,3)])[0]
+    else:
+        tipo_enemigo = "normal"
+
     # Elegir un tipo de enemigo aleatorio
     tipo_enemigo = random.choice(["normal", "rapido", "pesado"])
 
@@ -25,12 +33,8 @@ def Gen_Ene_borde(jugador_pos,oleada):
         return EnemigoNormal(x, y)
     elif tipo_enemigo == "rapido":
         return EnemigoRapido(x, y)
-<<<<<<< Updated upstream
     else:  # pesado
         return EnemigoPesado(x, y)
-=======
-    else: # pesado
-        return EnemigoPesado(x, y) 
     
 def detectar_colisiones(enemigos):
     for i, enemigo1 in enumerate(enemigos):
@@ -47,4 +51,3 @@ def resolver_colision(enemigo1, enemigo2):
     else:
         enemigo1.rect.x -= 5
         enemigo2.rect.x += 5
->>>>>>> Stashed changes
