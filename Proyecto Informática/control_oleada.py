@@ -1,8 +1,8 @@
 import random
 import constantes
-from type_enemy import EnemigoRapido, EnemigoPesado, EnemigoNormal,EnemigoMinijefe
+from type_enemy import EnemigoRapido, EnemigoPesado, EnemigoNormal
 
-def Gen_Ene_borde(jugador_pos,oleada):
+def Gen_Ene_borde(jugador_pos):
     lado = random.choice(["izquierda", "derecha", "arriba", "abajo"])
 
     # Generar coordenadas en el borde
@@ -14,9 +14,6 @@ def Gen_Ene_borde(jugador_pos,oleada):
         x, y = random.randint(0, constantes.ANCHO_VENTANA - 40), 0
     else:  # abajo
         x, y = random.randint(0, constantes.ANCHO_VENTANA - 40), constantes.ALTO_VENTANA - 40
-    # condicion minijefe
-    if oleada % 3 == 0:
-        return EnemigoMinijefe(x,y)
 
     # Elegir un tipo de enemigo aleatorio
     tipo_enemigo = random.choice(["normal", "rapido", "pesado"])

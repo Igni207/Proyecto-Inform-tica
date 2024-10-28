@@ -5,7 +5,7 @@ class Proyectil:
     def __init__(self, x, y, direction):
         super().__init__()
         h = k = 20
-        self.sprite = pygame.image.load('Proyecto Informática/imagenes/flecha.png')  # Cargar el sprite
+        self.sprite = pygame.image.load('E://Proyecto-Inform-tica-PINFOAlphaV0.0.3//Proyecto Informática//imagenes//flecha.png')  # Cargar el sprite
         self.sprite = pygame.transform.scale(self.sprite, (h, k))  # Cambiar el tamaño según sea necesario
         self.speed = 10  
         self.direction = direction
