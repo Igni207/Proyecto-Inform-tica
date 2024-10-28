@@ -6,6 +6,7 @@ from estructure_enemy import Enemigo
 from control_oleada import Gen_Ene_borde
 import constantes
 import interfaz
+import time
 
 pygame.init()
 ventana=pygame.display.set_mode((constantes.ANCHO_VENTANA, constantes.ALTO_VENTANA))
@@ -27,6 +28,8 @@ enemigos_por_oleada = 2
 enemigos_restantes = enemigos_por_oleada
 monedas_recogidas = 0 
 dano=1
+reloj = pygame.time.Clock()
+tiempo_descanso = 3.5
 
 #tiempo de inmortalidad despues de un golpe
 invulnerable = False
@@ -56,9 +59,11 @@ while running:
         enemigo = Gen_Ene_borde((jugador.rect.x, jugador.rect.y),oleada)
         enemigos.append(enemigo)
         enemigos_restantes -= 1
-    elif not enemigos:  # Preparar la próxima oleada si no quedan enemigos
+        print(f"tiempo de {tiempo_descanso} antes de la proxima ronda")
+        time.sleep(tiempo_descanso)
         oleada += 1
         enemigos_por_oleada += 3  # Aumentar dificultad, aumentando la cant de enemigos :D
+        enemigos_por_oleada += 2  # Aumentar dificultad, aumentando la cant de enemigos :D
         enemigos_restantes = enemigos_por_oleada
     
     enemigos_a_eliminar = []  # Lista para almacenar enemigos que deben ser eliminados
