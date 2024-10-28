@@ -23,7 +23,7 @@ barra_vida = interfaz.BarraVida(vida_max=5, pos=(50, 50)) #se pueden cambiar la 
 proyectiles = []
 enemigos = []
 oleada = 1
-enemigos_por_oleada = 5
+enemigos_por_oleada = 2
 enemigos_restantes = enemigos_por_oleada
 monedas_recogidas = 0 
 dano=1
@@ -53,7 +53,7 @@ while running:
 
     #generar enemigos para la oleada actual
     if enemigos_restantes > 0:
-        enemigo = Gen_Ene_borde((jugador.rect.x, jugador.rect.y))
+        enemigo = Gen_Ene_borde((jugador.rect.x, jugador.rect.y),oleada)
         enemigos.append(enemigo)
         enemigos_restantes -= 1
     elif not enemigos:  # Preparar la próxima oleada si no quedan enemigos
