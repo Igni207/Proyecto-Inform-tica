@@ -1,5 +1,6 @@
 import pygame
-#mi personaje
+import random
+
 class Item:
     def __init__(self, x, y, item_type):
         h = k = 50
@@ -11,7 +12,24 @@ class Item:
         if item_type == 2:
             self.sprite = pygame.image.load('imagenes/pocion_vida.png')
             self.sprite = pygame.transform.scale(self.sprite, (h, k))  #tamaño
+        self.drop = random.choice(["True", "False"])
 
+ 
+        
+        
 
     def dibujar(self, ventana):
         ventana.blit(self.sprite, self.rect.topleft)
+
+    #def actualizar (self):
+        #tiempo_actual = pygame.time.get_ticks
+        #if tiempo_actual - self.tiempo_creacion >= self.tiempo_utilidad:
+            #return False
+        #return True
+    
+    #def drop(enemigo):
+        #drop_chance = random.choise (["True", "False"])
+        #return drop_chance
+    
+
+    #def drop_item (ventana, item_type):
