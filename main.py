@@ -3,7 +3,7 @@ import constantes
 import interfaz 
 import proyectil
 import math
-import time
+import items
 from jugador import Jugador
 from control_oleada import Gen_Ene_borde
 from estructure_enemy import Enemigo
@@ -53,14 +53,13 @@ oleada = 1
 enemigos_por_oleada = 5
 enemigos_restantes = enemigos_por_oleada
 reloj = pygame.time.Clock()
-tiempo_descanso = 0.1
-
+tiempo_descanso = 0
 
 #items
-moneda = Item(constantes.ANCHO_VENTANA//3, constantes.ALTO_VENTANA//3, 1)
-pocion_vida = Item(constantes.ANCHO_VENTANA//5, constantes.ALTO_VENTANA//5, 2)
-pociones=[]
-pociones.append(pocion_vida)
+pociones = []
+monedas = []
+cant_nec_pocion = 0
+cant_nec_moneda = 0
 
 
 
@@ -82,7 +81,8 @@ musica_win = pygame.mixer.Sound("musica/victoria.mp3")
 
 
 #Barra de vida
-barra_vida = interfaz.BarraVida(vida_max=5, pos=(50, 50)) #se pueden cambiar la cant de vidas
+barra_vida_original = interfaz.BarraVida(vida_max=5, pos=(50, 50))
+barra_vida = barra_vida_original
 #Cont de oleadas
 contador_oleadas = interfaz.ContadorOleadas(pos=(constantes.ANCHO_VENTANA - 200, 50))
 #Cont de monedas
@@ -99,14 +99,16 @@ color_boton_volumen = (255, 255, 0)
 color_boton_jugar = (0, 200, 0)
 
 
-
-
-
 #botón de jugar menu principal
 boton_jugar_width, boton_jugar_height = 150, 50
 boton_jugar_rect = pygame.Rect((constantes.ANCHO_VENTANA - boton_jugar_width) // 2,
                                 300, boton_jugar_width, boton_jugar_height)
 color_boton = (0, 200, 0)  
+
+
+
+
+
 
 
 
@@ -283,12 +285,51 @@ while run==True:
             enemigos_golpeados = [enemigo for enemigo in enemigos if proyectil.rect.colliderect(enemigo.rect)]
             if enemigos_golpeados:
                 for enemigo in enemigos_golpeados:
+
                     if enemigo.recibir_daño_enemigo(daño):  #si recibe daño
                         enemigos.remove(enemigo)  #lo eliminamos
+                        cant_nec_pocion += 1
+                        cant_nec_moneda += 1
+
+
+                        if cant_nec_pocion >= 7:
+                            pocion_vida = Item(enemigo.rect.x, enemigo.rect.y, 2)
+                            pocion_vida.drop = True
+                            pociones.append(pocion_vida)
+                            cant_nec_pocion = 0 
+
+                        if cant_nec_moneda >= 4:
+                            moneda = Item(enemigo.rect.x, enemigo.rect.y, 1)
+                            moneda.drop = True
+                            monedas.append(moneda)
+                            cant_nec_moneda = 0
+
+
                 proyectiles.remove(proyectil)
+
+
+
 
         for proyectil in proyectiles:
             proyectil.dibujar(ventana)
+
+        for pocion in pociones[:]:
+            if pocion_vida.drop:
+                pocion_vida.dibujar(ventana)
+            if jugador.rect.colliderect(pocion_vida.rect):
+                if barra_vida.vida_actual < 5:
+                    barra_vida.vida_actual+=1
+                pociones.remove(pocion)
+
+        for moneda in monedas[:]:
+            if moneda.drop:
+                moneda.dibujar(ventana)
+            if jugador.rect.colliderect(moneda.rect):
+                contador_monedas.recoger_moneda()
+                monedas.remove(moneda)
+            if contador_monedas.monedas >= 10:
+                victoria = True
+                en_juego = False
 
 
 
@@ -296,17 +337,19 @@ while run==True:
 
 
         #generar enemigos para la oleada actual
-        if enemigos_restantes > 0:
-            enemigo = Gen_Ene_borde((jugador.rect.x, jugador.rect.y))
-            enemigos.append(enemigo)
-            enemigos_restantes -= 1
-        elif not enemigos:  #prox oleada si no hay enemigos
-            print(f"tiempo de {tiempo_descanso} antes de la proxima ronda")
-            time.sleep(tiempo_descanso)
-            oleada += 1
-            enemigos_por_oleada += 3  #aumentando la cant de enemigos :D
-            enemigos_restantes = enemigos_por_oleada
-            contador_oleadas.siguiente_oleada() #de interfaz
+        if tiempo_descanso == 0:
+            if enemigos_restantes > 0:
+                enemigo = Gen_Ene_borde((jugador.rect.x, jugador.rect.y))
+                enemigos.append(enemigo)
+                enemigos_restantes -= 1
+            elif not enemigos:  #prox oleada si no hay enemigos
+                tiempo_descanso = 230
+                oleada += 1
+                enemigos_por_oleada += 2  #aumentando la cant de enemigos :D
+                enemigos_restantes = enemigos_por_oleada
+                contador_oleadas.siguiente_oleada() #de interfaz
+        if tiempo_descanso > 0:
+            tiempo_descanso -= 1
         #movimiento enemigos
         for enemigo in enemigos[:]:
             enemigo.mover_hacia_jugador(jugador.rect.center)
@@ -326,15 +369,33 @@ while run==True:
 
 
 
-        #suponiendo que esto está dentro de algo estilo if jugador.rect.colliderect(moneda.rect):
-        #Digamos que aquí esta lo de las monedas, dentro del ciclo, cuando agarren las monedas
-        #vamos a usar esta función de aquí: contador_monedas.recoger_moneda()
-        #de esa forma aumenta el contador :D
-        #para ganar
-        #if self.monedas >= 10:
-        #   victoria == True
 
 
+
+        #Pantalla de la Massive Victory de este equipo que terminó el juego :D
+    elif victoria == True:
+
+        ventana.fill((0,0,0))
+        texto_victoria = fuente.render("COMPLETASTE EL JUEGO", True, (255, 255, 255))
+        ventana.blit(texto_victoria, texto_victoria.get_rect(center=(constantes.ANCHO_VENTANA // 2, 200)))  
+        #gracias por jugar
+        fuente_pequeña = pygame.font.Font("Fuente/AncientModernTales-a7Po.ttf", 40)  #letra mas chica
+        texto_gracias = fuente_pequeña.render("Gracias por jugar", True, (255, 255, 255))
+        ventana.blit(texto_gracias, texto_gracias.get_rect(center=(constantes.ANCHO_VENTANA // 2, constantes.ALTO_VENTANA // 2 - 50)))
+        
+        #Nosotros B)
+        nombres = ["Desarrolladores:", "Alzogaray", "Quinteros", "Lopez", "Chocobar", "Sandoval", "Luna"]
+        posicion_verti = (constantes.ALTO_VENTANA // 2 + 50)  #donde salen
+
+        for nombre in nombres:
+            texto_nombre = fuente_pequeña.render(nombre, True, (255, 255, 255))
+            ventana.blit(texto_nombre, texto_nombre.get_rect(center=(constantes.ANCHO_VENTANA // 2, posicion_verti)))
+            posicion_verti += 50  #espacio entre nombres
+            
+        #Musica de victoria
+        pygame.mixer.music.stop()  #para la musica de combate
+        musica_win.set_volume(0.1) #bajar volumen dios mio
+        musica_win.play()  #reproduce Massive Victory
 
 
 
@@ -350,29 +411,9 @@ while run==True:
         musica_game_over.set_volume(0.3) #bajar volumen dios mio
         musica_game_over.play()  #reproduce game over
 
-    #Pantalla de la Massive Victory de este equipo que terminó el juego :D
-    elif victoria == True:
-        ventana.fill((0,0,0))
-        texto_victoria = fuente.render("COMPLETASTE EL JUEGO")
-        ventana.blit(texto_victoria, (100, 300))
-        #gracias por jugar
-        fuente_pequeña = pygame.font.Font("Fuente/AncientModernTales-a7Po.ttf", 40)  #letra mas chica
-        texto_gracias = fuente_pequeña.render("Gracias por jugar", True, (255, 255, 255))
-        ventana.blit(texto_gracias, texto_gracias.get_rect(center=(constantes.ANCHO_VENTANA // 2, constantes.ALTO_VENTANA // 2 - 50)))
-    
-        #Nosotros B)
-        nombres = ["Desarrolladores:", "Alzogaray", "Quinteros", "Lopez", "Chocobar", "Sandoval", "Luna"]
-        posicion_verti = (constantes.ALTO_VENTANA // 2 + 50)  #donde salen
 
-        for nombre in nombres:
-            texto_nombre = fuente_pequeña.render(nombre, True, (255, 255, 255))
-            ventana.blit(texto_nombre, texto_nombre.get_rect(center=(constantes.ANCHO_VENTANA // 2, posicion_verti)))
-            posicion_verti += 50  #espacio entre nombres
-        
-        #Musica de victoria
-        pygame.mixer.music.stop()  #para la musica de combate
-        musica_win.set_volume(0.3) #bajar volumen dios mio
-        musica_win.play()  #reproduce Massive Victory
+
+
 
     pygame.display.flip()  #actualizar pantalla
     reloj.tick(60)  # 60 FPS

@@ -1,7 +1,7 @@
-from turtle import Screen
+
 import pygame
 import constantes
-from jugador import Jugador
+
 #Intento de Corazones
 
 class BarraVida:
@@ -46,7 +46,7 @@ class ContadorMonedas:
         self.fuente = pygame.font.Font("Fuente/AncientModernTales-a7Po.ttf", 40)
     
     def recoger_moneda(self):
-        self.monedas += 1  #contador de monedas
+        self.monedas += 1  #contador de monedas 
     
     def dibujar(self, screen):
         texto_monedas = self.fuente.render(f"Monedas: {self.monedas}", True, (255, 255, 225)) 

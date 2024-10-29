@@ -1,5 +1,7 @@
 import pygame
+import random
 #mi personaje
+
 class Item:
     def __init__(self, x, y, item_type):
         h = k = 50
@@ -11,7 +13,13 @@ class Item:
         if item_type == 2:
             self.sprite = pygame.image.load('imagenes/pocion_vida.png')
             self.sprite = pygame.transform.scale(self.sprite, (h, k))  #tamaño
+        self.drop = random.choice([True, False])
 
+
+        
+        
 
     def dibujar(self, ventana):
-        ventana.blit(self.sprite, self.rect.topleft)
+        if self.drop == True:
+            ventana.blit(self.sprite, self.rect.topleft)
+
