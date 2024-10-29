@@ -3,7 +3,6 @@ import constantes
 import interfaz 
 import proyectil
 import math
-import time
 from jugador import Jugador
 from control_oleada import Gen_Ene_borde
 from estructure_enemy import Enemigo
@@ -53,14 +52,15 @@ oleada = 1
 enemigos_por_oleada = 5
 enemigos_restantes = enemigos_por_oleada
 reloj = pygame.time.Clock()
-tiempo_descanso = 0.1
 
 
 #items
-moneda = Item(constantes.ANCHO_VENTANA//3, constantes.ALTO_VENTANA//3, 1)
-pocion_vida = Item(constantes.ANCHO_VENTANA//5, constantes.ALTO_VENTANA//5, 2)
+#moneda = Item(constantes.ANCHO_VENTANA//3, constantes.ALTO_VENTANA//3, 1)
+#pocion_vida = Item(constantes.ANCHO_VENTANA//5, constantes.ALTO_VENTANA//5, 2)
 pociones=[]
-pociones.append(pocion_vida)
+monedas=[]
+cant_nec_pocion=0
+cant_nec_moneda=0
 
 
 
@@ -228,8 +228,8 @@ while run==True:
         barra_vida.dibujo_cor(ventana)
         contador_oleadas.dibujar(ventana)
         contador_monedas.dibujar(ventana)
-
-
+        
+        
 
         #movimiento del jugador
         if mover_derecha:
@@ -285,7 +285,43 @@ while run==True:
                 for enemigo in enemigos_golpeados:
                     if enemigo.recibir_daño_enemigo(daño):  #si recibe daño
                         enemigos.remove(enemigo)  #lo eliminamos
+                        enemigo_eliminado = "SI"
+                        if enemigo_eliminado == "SI":
+                            cant_nec_pocion+=1
+                            if cant_nec_pocion==3:
+                                pocion_vida = Item(enemigo.rect.x, enemigo.rect.y, 2)
+                                pocion = pocion_vida
+                                pociones.append(pocion)
+                                cant_nec_pocion=0
+                            cant_nec_moneda +=1
+                            if cant_nec_moneda==5:
+                                moneda = Item(enemigo.rect.x, enemigo.rect.y, 1)
+                                moneda_list = moneda
+                                monedas.append(moneda_list)
+                                cant_nec_moneda=0
+
+
                 proyectiles.remove(proyectil)
+
+        for pocion in pociones[:]:
+            if pocion_vida.drop == ("True"):
+                pocion_vida.dibujar(ventana)
+
+            if jugador.rect.colliderect(pocion_vida.rect):
+                if barra_vida.vida_actual < 5:
+                    barra_vida.vida_actual+=1
+                pociones.remove(pocion)
+
+        for moneda_list in monedas[:]:
+            if moneda.drop == ("True"):
+                moneda.dibujar(ventana)
+
+            if jugador.rect.colliderect(moneda.rect):
+                contador_monedas.recoger_moneda()
+                
+                monedas.remove(moneda_list)
+
+
 
         for proyectil in proyectiles:
             proyectil.dibujar(ventana)
@@ -301,8 +337,6 @@ while run==True:
             enemigos.append(enemigo)
             enemigos_restantes -= 1
         elif not enemigos:  #prox oleada si no hay enemigos
-            print(f"tiempo de {tiempo_descanso} antes de la proxima ronda")
-            time.sleep(tiempo_descanso)
             oleada += 1
             enemigos_por_oleada += 3  #aumentando la cant de enemigos :D
             enemigos_restantes = enemigos_por_oleada
